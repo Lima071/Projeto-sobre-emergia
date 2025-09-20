@@ -1,0 +1,45 @@
+function atualizarValores() {
+    // Obtém os valores das barras de Tensão e Corrente
+    var tensao = document.getElementById("tensao").value;
+    var corrente = document.getElementById("corrente").value;
+
+    // Exibe os valores de Tensão e Corrente na interface (apenas números inteiros)
+    document.getElementById("tensao_valor").textContent = Math.round(tensao) + "V"; // arredonda para inteiros
+    document.getElementById("corrente_valor").textContent = Math.round(corrente) + "A"; // arredonda para inteiros
+
+    // Calcula a Resistência (R = V / I), arredondado para 2 casas decimais
+    var resistencia = (corrente > 0) ? (tensao / corrente).toFixed(2) : 0;  // Previne divisão por zero
+    
+    // Exibe o valor calculado da Resistência na interface
+    document.getElementById("resistencia_valor").textContent = resistencia + "Ω";
+}
+
+document.getElementById('calcular').addEventListener('click', function() {
+    // Obtendo as escolhas dos parâmetros
+    const primeiraEscolha = document.getElementById('primeira-caixa').value;
+    const segundaEscolha = document.getElementById('segunda-caixa').value;
+    
+    // Obtendo os valores inseridos
+    const numero1 = parseFloat(document.getElementById('numero1').value);
+    const numero2 = parseFloat(document.getElementById('numero2').value);
+    
+    // Verificando se os valores são válidos
+    if (isNaN(numero1) || isNaN(numero2)) {
+        document.getElementById('resultado').innerText = "Por favor, insira valores válidos para ambos os parâmetros.";
+        return;
+    }
+
+    // Lógica para calcular conforme a escolha
+    let resultado;
+    
+    // Se o usuário escolheu Corrente e Resistência, multiplicamos os dois
+    if ((primeiraEscolha === 'corrente' && segundaEscolha === 'resistencia') || 
+        (primeiraEscolha === 'resistencia' && segundaEscolha === 'corrente')) {
+        resultado = numero1 * numero2; // Multiplicação
+    } else {
+        resultado = numero1 / numero2; // Divisão
+    }
+
+    // Exibindo o resultado
+    document.getElementById('resultado').innerText = `Resultado: ${resultado.toFixed(2)}`;
+});
